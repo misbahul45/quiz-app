@@ -7,6 +7,7 @@ import { initializeAuth,
 } from "firebase/auth";
 import ReactNativeAsyncStorage from "@react-native-async-storage/async-storage";
 import { Platform } from "react-native";
+import { getFirestore } from 'firebase/firestore'
 
 
 let appId = "";
@@ -23,14 +24,14 @@ if (Platform.OS === "web") {
 
 
 const firebaseConfig = {
-  apiKey: process.env.FIREBASE_API_KEY,
-  authDomain: process.env.FIREBASE_AUTH_DOMAIN,
-  databaseURL: process.env.FIREBASE_DATABASE_URL,
-  projectId: process.env.FIREBASE_PROJECT_ID,
-  storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID,
-  appId: appId,
-  measurementId: process.env.FIREBASE_MEASUREMENT_ID,
+  apiKey: "AIzaSyCtiWlRRmXH65zc_h9JrV7cIv-nVHg3lWw",
+  authDomain: "todolist-project-7979d.firebaseapp.com",
+  databaseURL: "https://todolist-project-7979d-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "todolist-project-7979d",
+  storageBucket: "todolist-project-7979d.firebasestorage.app",
+  messagingSenderId: "839491810794",
+  appId: "1:839491810794:web:64d2cf5b6bf4295aa76e93",
+  measurementId: "G-T72FE2SQ0G"
 };
 
 // Initialize Firebase
@@ -40,6 +41,8 @@ const auth = initializeAuth(app, {
   persistence: getReactNativePersistence(ReactNativeAsyncStorage)
 });
 
-export { auth, app };
+const db=getFirestore(app);
+
+export { auth, app, db };
 
 

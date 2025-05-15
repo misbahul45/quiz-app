@@ -1,10 +1,12 @@
 import Colors from "@/constant/Colors";
-import { Image, StyleSheet, Text, View, TouchableOpacity, SafeAreaView, StatusBar, Platform } from "react-native";
+import { Image, Text, View, TouchableOpacity, SafeAreaView, StatusBar } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { useFonts } from "expo-font";
 import { useRouter } from "expo-router";
 import { useCallback } from "react";
 import * as SplashScreen from "expo-splash-screen";
+import { Indexstyles } from "@/styles/index.styles";
+import { useMiddleware } from "@/hooks/useMiddleware";
 
 export default function Index() {
   const router = useRouter();
@@ -30,52 +32,52 @@ export default function Index() {
   }
 
   return (
-    <SafeAreaView style={styles.container} onLayout={onLayoutRootView}>
+    <SafeAreaView style={Indexstyles.container} onLayout={onLayoutRootView}>
       <StatusBar barStyle="light-content" />
-      <View style={styles.heroContainer}>
+      <View style={Indexstyles.heroContainer}>
         <Image
           source={require("../assets/images/landing.png")}
-          style={styles.heroImage}
+          style={Indexstyles.heroImage}
           resizeMode="cover"
         />
         <LinearGradient
           colors={["transparent", Colors.primaryDark]}
-          style={styles.imageOverlay}
+          style={Indexstyles.imageOverlay}
         />
       </View>
 
-      <View style={styles.contentCard}>
+      <View style={Indexstyles.contentCard}>
         <Image
           source={require("../assets/images/logo-1.png")}
-          style={styles.logo}
+          style={Indexstyles.logo}
           resizeMode="contain"
         />
-        <Text style={styles.welcomeTitle}>Welcome To Coaching App</Text>
-        <Text style={styles.welcomeSubtitle}>Your personal wellness companion</Text>
+        <Text style={Indexstyles.welcomeTitle}>Welcome To Coaching App</Text>
+        <Text style={Indexstyles.welcomeSubtitle}>Your personal wellness companion</Text>
 
-        <Text style={styles.description}>
+        <Text style={Indexstyles.description}>
           Explore topics, answer quizzes, and boost your brainpower.
         </Text>
 
-        <View style={styles.buttonContainer}>
+        <View style={Indexstyles.buttonContainer}>
           <TouchableOpacity 
             onPress={() => goTo("/signup")} 
-            style={styles.primaryButton}
+            style={Indexstyles.primaryButton}
             activeOpacity={0.8}
           >
-            <Text style={styles.primaryButtonText}>Get Started</Text>
+            <Text style={Indexstyles.primaryButtonText}>Get Started</Text>
           </TouchableOpacity>
           
           <TouchableOpacity 
             onPress={() => goTo("/signin")} 
-            style={styles.secondaryButton}
+            style={Indexstyles.secondaryButton}
             activeOpacity={0.8}
           >
-            <Text style={styles.secondaryButtonText}>Already have an account?</Text>
+            <Text style={Indexstyles.secondaryButtonText}>Already have an account?</Text>
           </TouchableOpacity>
         </View>
 
-        <Text style={styles.footerText}>
+        <Text style={Indexstyles.footerText}>
           By continuing, you agree to our Terms of Service and Privacy Policy
         </Text>
       </View>
@@ -83,125 +85,3 @@ export default function Index() {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: Colors.background,
-    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
-  },
-  heroContainer: {
-    height: 360,
-    width: "100%",
-    position: "relative",
-  },
-  heroImage: {
-    width: "100%",
-    height: "100%",
-  },
-  imageOverlay: {
-    position: "absolute",
-    bottom: 0,
-    left: 0,
-    right: 0,
-    height: 100,
-  },
-  contentCard: {
-    width: "100%",
-    padding: 24,
-    backgroundColor: Colors.background,
-    borderTopLeftRadius: 30,
-    borderTopRightRadius: 30,
-    marginTop: -40,
-    flex: 1,
-    ...Platform.select({
-      ios: {
-        shadowColor: Colors.primaryDark,
-        shadowOffset: { width: 0, height: -3 },
-        shadowOpacity: 0.1,
-        shadowRadius: 5,
-      },
-      android: {
-        elevation: 4,
-      },
-    }),
-  },
-  logo: {
-    width: 100,
-    height: 100,
-    alignSelf: "center",
-    marginBottom: 20,
-  },
-  welcomeTitle: {
-    color: Colors.text,
-    fontFamily: "outfit-bold",
-    fontSize: 28,
-    textAlign: "center",
-    marginBottom: 8,
-  },
-  welcomeSubtitle: {
-    color: Colors.primaryDark,
-    fontSize: 18,
-    textAlign: "center",
-    marginBottom: 24,
-    fontFamily: "outfit-medium",
-  },
-  description: {
-    color: Colors.text,
-    fontSize: 16,
-    textAlign: "center",
-    marginBottom: 32,
-    lineHeight: 26,
-    fontFamily: "outfit",
-  },
-  buttonContainer: {
-    gap: 16,
-    marginBottom: 20,
-  },
-  primaryButton: {
-    backgroundColor: Colors.primary,
-    paddingVertical: 16,
-    paddingHorizontal: 24,
-    borderRadius: 12,
-    alignItems: "center",
-    ...Platform.select({
-      ios: {
-        shadowColor: Colors.primaryDark,
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.2,
-        shadowRadius: 2,
-      },
-      android: {
-        elevation: 3,
-      },
-    }),
-  },
-  primaryButtonText: {
-    color: Colors.background,
-    fontSize: 18,
-    fontWeight: "bold",
-    fontFamily: "outfit-medium",
-  },
-  secondaryButton: {
-    backgroundColor: Colors.background,
-    paddingVertical: 16,
-    paddingHorizontal: 24,
-    borderRadius: 12,
-    alignItems: "center",
-    borderWidth: 2,
-    borderColor: Colors.primary,
-  },
-  secondaryButtonText: {
-    color: Colors.primary,
-    fontSize: 18,
-    fontWeight: "bold",
-    fontFamily: "outfit-medium",
-  },
-  footerText: {
-    color: Colors.primaryDark,
-    fontSize: 10,
-    textAlign: "center",
-    marginTop: 16,
-    opacity: 0.7,
-    fontFamily: "outfit",
-  },
-});
