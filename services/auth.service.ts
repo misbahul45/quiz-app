@@ -4,14 +4,13 @@ import { User } from "@/types/auth.types";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
-  User as FirebaseUser,
 } from "firebase/auth";
 import { doc, setDoc, getDoc } from "firebase/firestore";
 
 export class AuthService {
   static async signup(data: SignupSchemaType) {
     try {
-      const userCredential = await createUserWithEmailAndPassword(
+      await createUserWithEmailAndPassword(
         auth,
         data.email,
         data.password

@@ -15,8 +15,9 @@ const Signin = () => {
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const signinFunction = useAuthStore((state) => state.signin);
+  const signinError = useAuthStore((state) => state.error);
 
-  const { control, handleSubmit, formState: { errors, isValid, isSubmitting } } = useForm<SigninSchemaType>({
+  const { control, handleSubmit, formState: { errors, isValid, isSubmitting }, reset } = useForm<SigninSchemaType>({
     mode: 'onChange',
     resolver: zodResolver(AuthSchema.signin),
     defaultValues: {
@@ -28,7 +29,9 @@ const Signin = () => {
   const onSubmit = async(data: SigninSchemaType) => {
     await sleep()
     await signinFunction(data);
+    reset()
   };
+
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -50,7 +53,7 @@ const Signin = () => {
           </View>
           <Text style={authStyles.title}>Welcome Back</Text>
           <Text style={authStyles.subTitle}>Sign in to continue</Text>
-
+          {signinError && <Text style={authStyles.errorText}>{signinError}</Text>}
           <View style={[authStyles.formContainer, { marginTop: 20 }]}>
             <View style={{ marginBottom: 15 }}>
               <View style={authStyles.inputContainer}>
@@ -75,7 +78,7 @@ const Signin = () => {
               {errors.email && <Text style={authStyles.errorText}>{errors.email.message}</Text>}
             </View>
 
-            {/* Password */}
+
             <View style={{ marginBottom: 20 }}>
               <View style={authStyles.inputContainer}>
                 <Controller
@@ -122,8 +125,8 @@ const Signin = () => {
               activeOpacity={0.8}
               disabled={!isValid || isSubmitting}
             >
-              <Text style={authStyles.signUpButtonText}>
-                {isSubmitting ? 'Signing in...' : 'Sign In'}
+              <Text style={[authStyles.signUpButtonText, { opacity: isSubmitting ? 0.5 : 1 }]}>
+                {isSubmitting ? 'loading...' : 'Sign In'}
               </Text>
             </TouchableOpacity>
           </View>

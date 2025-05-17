@@ -6,6 +6,7 @@ import { AuthStore, User } from "@/types/auth.types";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { signOut } from "firebase/auth";
 import { auth } from "@/config/firebase";
+import { useRouter } from "expo-router";
 
 
 export const useAuthStore = create<AuthStore>()(
@@ -14,7 +15,6 @@ export const useAuthStore = create<AuthStore>()(
       user: null,
       isLoading: false,
       error: null,
-
       signin: async (data) => {
         try {
           set({ isLoading: true, error: null });

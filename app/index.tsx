@@ -1,38 +1,21 @@
 import Colors from "@/constant/Colors";
-import { Image, Text, View, TouchableOpacity, SafeAreaView, StatusBar } from "react-native";
-import { LinearGradient } from "expo-linear-gradient";
-import { useFonts } from "expo-font";
-import { useRouter } from "expo-router";
-import { useCallback } from "react";
-import * as SplashScreen from "expo-splash-screen";
-import { Indexstyles } from "@/styles/index.styles";
 import { useMiddleware } from "@/hooks/useMiddleware";
+import { Indexstyles } from "@/styles/index.styles";
+import { LinearGradient } from "expo-linear-gradient";
+import { useRouter } from "expo-router";
+import { Image, SafeAreaView, StatusBar, Text, TouchableOpacity, View } from "react-native";
 
 export default function Index() {
+  useMiddleware()
   const router = useRouter();
-
-  const [fontsLoaded] = useFonts({
-    "outfit": require("../assets/fonts/Outfit-Regular.ttf"),
-    "outfit-medium": require("../assets/fonts/Outfit-Medium.ttf"),
-    "outfit-bold": require("../assets/fonts/Outfit-Bold.ttf"),
-  });
-
-  const onLayoutRootView = useCallback(async () => {
-    if (fontsLoaded) {
-      await SplashScreen.hideAsync();
-    }
-  }, [fontsLoaded]);
 
   const goTo = (url:any) => {
     router.push(url);
   };
 
-  if (!fontsLoaded) {
-    return null;
-  }
 
   return (
-    <SafeAreaView style={Indexstyles.container} onLayout={onLayoutRootView}>
+    <SafeAreaView style={Indexstyles.container}>
       <StatusBar barStyle="light-content" />
       <View style={Indexstyles.heroContainer}>
         <Image

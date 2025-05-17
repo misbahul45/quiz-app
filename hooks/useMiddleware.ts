@@ -13,7 +13,7 @@ export const useMiddleware = () => {
 
   useEffect(() => {
     if (isMounted && user) {
-      router.replace("/quiz");
+      router.replace("/home");
     }
   }, [isMounted, user, router]);
 };

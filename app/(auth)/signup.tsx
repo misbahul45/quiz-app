@@ -9,13 +9,16 @@ import Colors from '@/constant/Colors';
 import { Feather, FontAwesome } from '@expo/vector-icons';
 import { authStyles } from '@/styles/auth.styles';
 import { useAuthStore } from '@/store/useAuthStore';
+import { sleep } from '@/libs/utils';
 
 const Signup = () => {
     const signupFunction=useAuthStore((state)=>state.signup);
+    const signupError = useAuthStore((state) => state.error);
+
     const router = useRouter();
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-    const { control, handleSubmit, formState: { errors, isValid } } = useForm<SignupSchemaType>({
+    const { control, handleSubmit, formState: { errors, isValid, isSubmitting }, reset } = useForm<SignupSchemaType>({
         mode: 'onChange',
         resolver: zodResolver(AuthSchema.signup),
         defaultValues: {
@@ -27,8 +30,10 @@ const Signup = () => {
     });
 
     const onSubmit =async (data: SignupSchemaType) => {
+        await sleep()
         await signupFunction(data);
-    };
+        reset();
+    };    
 
     return (
         <SafeAreaView style={{ flex: 1 }}>
@@ -50,7 +55,7 @@ const Signup = () => {
                     </View>
                     <Text style={authStyles.title}>Create new Account</Text>
                     <Text style={authStyles.subTitle}>Signup to get started with us</Text>
-
+                    {signupError && <Text style={authStyles.errorText}>{signupError}</Text>}
                     <View style={authStyles.formContainer}>
                         <View style={{ marginBottom: 15 }}>
                             <View style={authStyles.inputContainer}>
@@ -162,13 +167,13 @@ const Signup = () => {
                         <TouchableOpacity
                             style={[
                                 authStyles.signUpButton,
-                                !isValid && authStyles.signUpButtonDisabled
+                                (!isValid || isSubmitting) && authStyles.signUpButtonDisabled
                             ]}
                             onPress={handleSubmit(onSubmit)}
                             activeOpacity={0.8}
                             disabled={!isValid}
                         >
-                            <Text style={authStyles.signUpButtonText}>Create Account</Text>
+                            <Text style={authStyles.signUpButtonText}>{isSubmitting? "Signing Up..." : "Sign Up"}</Text>
                         </TouchableOpacity>
                     </View>
                     
